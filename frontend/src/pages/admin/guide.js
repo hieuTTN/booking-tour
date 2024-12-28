@@ -4,7 +4,7 @@ import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import $ from 'jquery'; 
 import Swal from 'sweetalert2'
-import {getMethod,postMethodPayload, postMethod} from '../../services/request';
+import {getMethod,postMethodPayload, deleteMethod} from '../../services/request';
 
 
 var token = localStorage.getItem("token");
@@ -41,33 +41,20 @@ async function handleAddAccount(event) {
 
 var size = 10
 var url = '';
-const AdminUser = ()=>{
+const AdminGuide = ()=>{
     const [items, setItems] = useState([]);
     const [pageCount, setpageCount] = useState(0);
     useEffect(()=>{
-        const getUser = async() =>{
-            var response = await getMethod('/api/user/admin/get-user-by-role?&size='+size+'&sort=id,desc&page='+0)
-            var result = await response.json();
-            setItems(result.content)
-            setpageCount(result.totalPages)
-            url = '/api/user/admin/get-user-by-role?&size='+size+'&sort=id,desc&page='
-        };
         getUser();
     }, []);
 
-
-    async function filterUser(){
-        var role = document.getElementById("role").value
-        var curUrl = '/api/user/admin/get-user-by-role?&size='+size+'&sort=id,desc&role='+role+'&page=';
-        if(role == ""){
-            curUrl = '/api/user/admin/get-user-by-role?&size='+size+'&sort=id,desc&page=';
-        }
-        var response = await getMethod(curUrl+0)
+    const getUser = async() =>{
+        var response = await getMethod('/api/guide/admin/find-all?&size='+size+'&sort=id,desc&page='+0)
         var result = await response.json();
         setItems(result.content)
         setpageCount(result.totalPages)
-        url = curUrl;
-    }
+        url = '/api/guide/admin/find-all?&size='+size+'&sort=id,desc&page='
+    };
 
     const handlePageClick = async (data)=>{
         var currentPage = data.selected
@@ -77,23 +64,19 @@ const AdminUser = ()=>{
         setpageCount(result.totalPages)
     }
 
-    async function lockOrUnlock(id, type) {
-        var con = window.confirm("Xác nhận hành động?");
+    async function deleteData(id){
+        var con = window.confirm("Bạn chắc chắn muốn xóa hướng dẫn viên này?");
         if (con == false) {
             return;
         }
-        const response = await postMethod('/api/user/admin/lockOrUnlockUser?id=' + id)
+        var response = await deleteMethod('/api/guide/admin/delete?id='+id)
         if (response.status < 300) {
-            var mess = '';
-            if (type == 1) {
-                mess = 'Khóa thành công'
-            } else {
-                mess = 'Mở khóa thành công'
-            }
-            toast.success(mess);
-            filterUser();
-        } else {
-            toast.error("Thất bại");
+            toast.success("Xóa thành công")
+            getUser();
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
         }
     }
     
@@ -101,16 +84,11 @@ const AdminUser = ()=>{
     return (
         <>
             <div class="headerpageadmin d-flex justify-content-between align-items-center p-3 bg-light border">
-                <strong class="text-left"><i className='fa fa-users'></i> Quản Lý Tài Khoản</strong>
+                <strong class="text-left"><i className='fa fa-users'></i> Quản Lý Hướng Dẫn Viên</strong>
                 <div class="search-wrapper d-flex align-items-center">
                     <div class="search-container">
-                        <select onChange={()=>filterUser()} id='role' class="form-control">
-                            <option value="">Tất cả quyền</option>
-                            <option value="ROLE_USER">Tài khoản người dùng</option>
-                            <option value="ROLE_ADMIN">Tài khoản admin</option>
-                        </select>
                     </div>
-                    <button data-bs-toggle="modal" data-bs-target="#addtk" class="btn btn-primary ms-2"><i className='fa fa-plus'></i></button>
+                    <a href='add-guide' class="btn btn-primary ms-2"><i className='fa fa-plus'></i></a>
                 </div>
             </div>
             <div class="tablediv">
@@ -122,31 +100,22 @@ const AdminUser = ()=>{
                         <thead>
                             <tr>
                                 <th>id</th>
-                                <th>Tên đăng nhập</th>
+                                <th>Ảnh</th>
                                 <th>Họ tên</th>
-                                <th>Số điện thoại</th>
-                                <th>Ngày tạo</th>
-                                <th>Quyền</th>
-                                <th>Khóa</th>
+                                <th>Ngày sinh</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map((item=>{
-                                var btn = '';
-                                if (item.actived == 0) {
-                                    var btn = <button onClick={()=>lockOrUnlock(item.id,0)} class="btn btn-danger"><i class="fa fa-unlock"></i></button>
-                                } else {
-                                    var btn = <button onClick={()=>lockOrUnlock(item.id,1)} class="btn btn-primary"><i class="fa fa-lock"></i></button>
-                                }
                                 return  <tr>
                                     <td>{item.id}</td>
-                                    <td>{item.username}</td>
-                                    <td>{item.fullname}</td>
-                                    <td>{item.phone}</td>
-                                    <td>{item.createdDate}</td>
-                                    <td>{item.authorities.name}</td>
+                                    <td><img src={item.avatar} class='imgtable'/></td>
+                                    <td>{item.fullName}</td>
+                                    <td>{item.dob}</td>
                                     <td class="sticky-col">
-                                        {btn}
+                                        <a href={'add-guide?id='+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>
+                                        <button onClick={()=>deleteData(item.id)} class="delete-btn"><i className='fa fa-trash'></i></button>
                                     </td>
                                 </tr>
                             }))}
@@ -200,4 +169,4 @@ const AdminUser = ()=>{
     );
 }
 
-export default AdminUser;
+export default AdminGuide;

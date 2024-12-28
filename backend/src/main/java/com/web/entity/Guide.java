@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "guide")
@@ -17,7 +18,7 @@ public class Guide {
 
     private String fullName;
 
-    private String dob;
+    private Date dob;
 
     private String description;
 

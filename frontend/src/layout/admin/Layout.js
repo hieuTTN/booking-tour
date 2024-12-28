@@ -1,115 +1,155 @@
-import {handleChangePass} from '../../services/auth'
+import lich from '../../assest/images/lich.png'
+import avatar from '../../assest/images/user.svg'
+import { useState, useEffect } from 'react'
+import { useLocation, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getMethod, postMethod, urlGlobal } from '../../services/request';
 
-function header({ children }){
-    checkAdmin();
+function Header({ children }){
+     // Ensure useLocation is called at the top level of the component
+     const location = useLocation();
+
+     // Function to check if the current path matches the given pathname
+     const isActive = (pathname) => {
+         for(var i=0; i<pathname.length; i++){
+            if(location.pathname === pathname[i]){
+                return 'activenavbar';
+            }
+         }
+         return '';
+     };
+     
+    const [isCssLoaded, setCssLoaded] = useState(false);
+    useEffect(()=>{
+        checkAdmin();
+        import('../admin/layout.scss').then(() => setCssLoaded(true));
+    }, []);
+    if (!isCssLoaded) {
+        return <></>
+    }
+
+
+    var user = window.localStorage.getItem("user")
+    if(user != null){
+        user = JSON.parse(user);
+    }
+
+    function openClose(){
+        document.getElementById("sidebar").classList.toggle("toggled");
+        document.getElementById("page-content-wrapper").classList.toggle("toggled");
+        document.getElementById("navbarmain").classList.toggle("navbarmainrom");
+    }
+
     return(
-        <div class="sb-nav-fixed">
-            <nav id="top" class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <a class="navbar-brand ps-3" href="#">Quản trị hệ thống</a>
-                <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
-                <ul id="menuleft" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                </ul>
-            </nav>
-            
-            <div id="layoutSidenav">
-                <div id="layoutSidenav_nav">
-                    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                        <div class="sb-sidenav-menu">
-                            <div class="nav">
-                                <a class="nav-link" href="index">
-                                    <div class="sb-nav-link-icon"><i class="fa fa-database iconmenu"></i></div>
-                                    Tổng quan
-                                </a>
-                                <a class="nav-link" href="user">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-user-alt iconmenu"></i></div>
-                                    Tài khoản
-                                </a>
-                                <a class="nav-link" href="category">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-list iconmenu"></i></div>
-                                    Danh mục
-                                </a>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-table iconmenu"></i></div>
-                                    Phòng
-                                    <div class="sb-sidenav-arrow"> <i class="fa fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="room">Tất cả phòng</a>
-                                        <a class="nav-link" href="empty-room">Phòng còn trống</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link" href="dichvu">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag iconmenu"></i></div>
-                                    Dịch vụ
-                                </a>
-                                <a class="nav-link" href="tienich">
-                                    <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart iconmenu"></i></div>
-                                    Tiện ích
-                                </a>
-                                <a class="nav-link" href="blog">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-newspaper iconmenu"></i></div>
-                                    Bài viết
-                                </a>
-                                <a class="nav-link" href="booking">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-file iconmenu"></i></div>
-                                    Lịch đặt
-                                </a>
-                                <a class="nav-link" href="doanhthu">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-bar iconmenu"></i></div>
-                                    Doanh thu
-                                </a>
-                                <a data-bs-toggle="modal" data-bs-target="#changepassword" class="nav-link" href="#">
-                                    <div class="sb-nav-link-icon"><i class="fa fa-key iconmenu"></i></div>
-                                    Mật khẩu
-                                </a>
-                                <a onClick={logout} class="nav-link" href="#">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt iconmenu"></i></div>
-                                    Đăng xuất
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-                <div id="layoutSidenav_content">
-                    <main class="main">
-                        {children}
-                    </main>
-                </div>
+        <div class="d-flex" id="wrapper">
+        <nav id="sidebar" class="bg-dark">
+            <div class="sidebar-header p-3 text-white">
+                <h3>Admin <i class="fa fa-bars pointer" id="iconbaradmin" onClick={openClose}></i></h3> 
             </div>
+            <ul class="list-unstyled components">
+                <li className={isActive("/admin/index")}>
+                    <a href="/" class="text-white text-decoration-none">
+                        <i class="fa fa-home"></i> Trang chủ
+                    </a>
+                </li>
+                <li className={isActive(["/admin/user"])}>
+                    <a href="#coltaikhoan" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
+                        <i class="fa fa-user"></i> Tài khoản
+                    </a>
+                    <ul class="collapse list-unstyleds" id="coltaikhoan">
+                        <li class="nav-item">
+                            <a href="user" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tài khoản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm tài khoản</a>
+                        </li>
+                    </ul>
+                </li>
+                <li className={isActive(["/admin/category"])}>
+                    <a href="category" class="text-white text-decoration-none">
+                        <i class="fa fa-list"></i> Danh mục
+                    </a>
+                </li>
+                <li className={isActive(["/admin/tour", "/admin/add-tour"])}>
+                    <a href="#dashboardSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
+                        <i class="fa fa-home"></i> Tour du lịch
+                    </a>
+                    <ul class="collapse list-unstyleds" id="dashboardSubmenu">
+                        <li class="nav-item">
+                            <a href="tour" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="add-tour" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm tour</a>
+                        </li>
+                    </ul>
+                </li>
+                <li className={isActive(["/admin/guide", "/admin/add-guide"])}>
+                    <a href="#dashboardSubmenu1" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
+                        <i class="fa fa-users"></i> Hướng dẫn viên
+                    </a>
+                    <ul class="collapse list-unstyleds" id="dashboardSubmenu1">
+                        <li class="nav-item">
+                            <a href="guide" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách hướng dẫn viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="add-guide" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm hướng dẫn viên</a>
+                        </li>
+                    </ul>
+                </li>
+                <li className={isActive(["/admin/report"])}>
+                    <a href="report" class="text-white text-decoration-none">
+                        <i class="fa fa-flag"></i> Đặt tour
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onClick={logout} class="text-white text-decoration-none">
+                        <i class="fa fa-sign-out"></i> Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-            <div class="modal fade" id="changepassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Đổi mật khẩu</h5> <button id='btnclosemodal' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-                        <div class="modal-body row">
-                            <form method='post' onSubmit={handleChangePass}>
-                                <label class="lbacc">Mật khẩu hiện tại *</label>
-                                <input required name='currentpass' type="password" class="form-control" />
-                                <label class="lbacc">Mật khẩu mới *</label>
-                                <input required name='newpass' type="password" class="form-control"/>
-                                <label class="lbacc">Xác nhận mật khẩu mới *</label>
-                                <input required name='renewpass' type="password" class="form-control"/>
-                                <button type="submit" class="btntt">LƯU</button>
-                            </form>
-                        </div>
+        <div id="page-content-wrapper" class="w-100">
+            <nav id='navbarmain' class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-link" id="menu-toggle"><i class="fas fa-bars" onClick={openClose}></i></button>
+                    <div class="dropdown ms-auto">
+                        <a class="nav-link dropdown-toggle position-relative" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                0
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                            <div className='bottomthongbao'>
+                                <li><a class="dropdown-item" href="#"><i className='fa fa-check'></i> Đánh dấu tất cả là đã đọc</a></li>
+                                <li><a class="dropdown-item" href="thong-bao"><i className='fa fa-eye'></i> Xem tất cả thông báo</a></li>
+                            </div>
+                        </ul>
+                    </div>
+            
+                    <div class="dropdown ms-3">
+                        <a class="dropdown-toggle d-flex align-items-center text-decoration-none" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="navbar-text me-2">{user?.username}</span>
+                            {/* <img src={user?.avatar} class="rounded-circle" alt="User Avatar"/> */}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">Update Info</a></li>
+                            <li onClick={logout}><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
                     </div>
                 </div>
+            </nav>
+            <div class="container-fluid py-4" id='mainpageadmin'>
+                {children}
             </div>
         </div>
+    </div>
     );
 }
 
 async function checkAdmin(){
-    var token = localStorage.getItem("token");
-    var url = 'http://localhost:8080/api/admin/check-role-admin';
-    const response = await fetch(url, {
-        headers: new Headers({
-            'Authorization': 'Bearer ' + token
-        })
-    });
+    const response = await getMethod('/api/user/admin/check-role-admin')
     if (response.status > 300) {
         window.location.replace('../login')
     }
@@ -122,4 +162,4 @@ function logout(){
     window.location.replace('../login')
 }
 
-export default header;
+export default Header;

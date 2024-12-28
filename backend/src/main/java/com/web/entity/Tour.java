@@ -1,12 +1,15 @@
 package com.web.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.web.enums.PayStatus;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,12 +44,15 @@ public class Tour {
 
     private String image;
 
+    private LocalDateTime createdDate;
+
     @ManyToOne
     private Category category;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
-    private List<ImageTour> imageTours;
+    private List<ImageTour> imageTours = new ArrayList<>();
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
-    private List<TourGuide> tourGuides;
+    @JsonManagedReference
+    private List<TourGuide> tourGuides = new ArrayList<>();
 }

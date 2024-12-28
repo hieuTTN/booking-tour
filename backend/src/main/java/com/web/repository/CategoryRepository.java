@@ -19,9 +19,9 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
     @Query("select c from Category c ")
     public List<Category> findAll();
 
-    @Query(value = "select c.id, c.name, " +
-            "(SELECT COUNT(re.real_estate_id) from real_estate_category re WHERE re.category_id = c.id) as quantity " +
-            "from category c WHERE c.deleted = false or c.deleted is null", nativeQuery = true)
+    @Query(value = "select c.id, c.name,\n" +
+            "(select count(t.id) from tours t where t.category_id = c.id) as quantity\n" +
+            "from category c", nativeQuery = true)
     public List<CategoryDto> findAllQuantity();
 
 }

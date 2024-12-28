@@ -4,7 +4,10 @@ import layoutLogin from '../layout/user/loginlayout/login'
 //admin
 import userAdmin from '../pages/admin/user'
 import AdminCateory from '../pages/admin/category'
-import AdminBooking from '../pages/admin/booking'
+import AdminGuide from '../pages/admin/guide'
+import AdminAddGuide from '../pages/admin/addguide'
+import AdminAddTour from '../pages/admin/addtour'
+import AdminTour from '../pages/admin/tour'
 
 
 //public
@@ -25,7 +28,10 @@ const publicRoutes = [
 const adminRoutes = [
     { path: "/admin/user", component: userAdmin, layout: layoutAdmin },
     { path: "/admin/category", component: AdminCateory, layout: layoutAdmin },
-    { path: "/admin/booking", component: AdminBooking, layout: layoutAdmin },
+    { path: "/admin/guide", component: AdminGuide, layout: layoutAdmin },
+    { path: "/admin/add-guide", component: AdminAddGuide, layout: layoutAdmin },
+    { path: "/admin/add-tour", component: AdminAddTour, layout: layoutAdmin },
+    { path: "/admin/tour", component: AdminTour, layout: layoutAdmin },
 ];
 
 

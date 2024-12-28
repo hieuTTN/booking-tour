@@ -40,7 +40,7 @@ async function processLogin(user, token) {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     if (user.authorities.name === "ROLE_ADMIN") {
-        window.location.href = 'admin/thong-ke';
+        window.location.href = 'admin/user';
     }
     if (user.authorities.name === "ROLE_USER") {
         window.location.href = '/';

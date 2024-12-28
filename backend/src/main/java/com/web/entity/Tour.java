@@ -44,6 +44,8 @@ public class Tour {
 
     private String image;
 
+    private String address;
+
     private LocalDateTime createdDate;
 
     @ManyToOne

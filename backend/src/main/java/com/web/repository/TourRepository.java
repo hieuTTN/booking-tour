@@ -12,4 +12,10 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
 
     @Query("select t from Tour t where t.startDate >= ?1 and t.endDate <= ?2")
     Page<Tour> findByDate(Date start, Date end, Pageable pageable);
+
+    @Query("select t from Tour t where t.startDate >= ?1 and t.endDate <= ?2 and t.regisExpirationDate >= current_date ")
+    Page<Tour> findByDatePublic(Date start, Date end, Pageable pageable);
+
+    @Query("select t from Tour t where t.regisExpirationDate >= current_date and t.category.id = ?1")
+    Page<Tour> findByCategory(Long categoryId,Pageable pageable);
 }

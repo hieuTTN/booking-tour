@@ -44,6 +44,13 @@ public class TourApi {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
+    @GetMapping("/public/find-all-by-user")
+    public ResponseEntity<?> findAll(@RequestParam(required = false)Date from, @RequestParam(required = false) Long categoryId,
+                                         @RequestParam(required = false) Date to, Pageable pageable){
+        Page<Tour> result = tourService.findAllPublic(from, to,categoryId, pageable);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
     @GetMapping("/admin/findById")
     public ResponseEntity<?> findById(@RequestParam("id") Long id){
         Tour result = tourService.findById(id);

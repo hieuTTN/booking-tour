@@ -1,5 +1,8 @@
 import styles from './header.scss';
-import logo from '../../../assest/images/logo.png';
+import logo from '../../../assest/images/logo.svg';
+import {getMethod} from '../../../services/request';
+import { useState, useEffect } from 'react'
+import Select from 'react-select';
 
 function logout(){
     localStorage.removeItem("token");
@@ -7,7 +10,16 @@ function logout(){
     window.location.replace('/login')
 }
 
-function header (){
+function Header (){
+    const [danhmuc, setDanhMuc] = useState([]);
+    useEffect(()=>{
+        const getCategory = async() =>{
+            var response = await getMethod('/api/category/public/find-all-quantity')
+            var result = await response.json();
+            setDanhMuc(result)
+        };
+        getCategory();
+    }, []);
     var token = localStorage.getItem('token');
     var authen = <a href="login" class="pointermenu gvs menulink"><i class="fa fa-user"></i> Đăng ký/ Đăng nhập</a>
     if(token != null){
@@ -35,7 +47,17 @@ function header (){
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="linktop" href='index'><img class="imglogo" src={logo}/></a></li>
                         <li class="nav-item"><a class="nav-link menulink" href="index">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link menulink" href="booking-room">Đặt tour</a></li>
+                        <li class="nav-item"><a class="nav-link menulink" href="booking-room">Giới thiệu</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle menulink" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Tour du lịch
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {danhmuc.map((item=>{
+                                    return <li><a class="dropdown-item" href={'tim-tour?category='+item.id}>{item.name}</a></li>
+                                }))}
+                            </ul>
+                        </li>
                     </ul>
                     <div class="d-flex right10p">
                         {authen}
@@ -57,4 +79,4 @@ function header (){
     
 }
 
-export default header;
+export default Header;

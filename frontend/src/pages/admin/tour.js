@@ -11,34 +11,6 @@ import {formatMoney} from '../../services/money';
 var token = localStorage.getItem("token");
 
 
-async function handleAddAccount(event) {
-    event.preventDefault();
-    if(event.target.elements.password.value != event.target.elements.repassword.value){
-        toast.error("Mật khẩu không trùng khớp");
-        return;
-    }
-    const payload = {
-        fullname: event.target.elements.fullname.value,
-        email: event.target.elements.email.value,
-        phone: event.target.elements.phone.value,
-        password: event.target.elements.password.value
-    };
-    const res = await postMethodPayload('/api/user/admin/addaccount',payload)
-    var result = await res.json()
-    console.log(result);
-    if (res.status == 417) {
-        toast.error(result.defaultMessage);
-    }
-    if(res.status < 300){
-        Swal.fire({
-            title: "Thông báo",
-            text: "Tạo tài khoản thành công!",
-            preConfirm: () => {
-                window.location.reload();
-            }
-        });
-    }
-};
 
 var size = 10
 var url = '';

@@ -37,6 +37,8 @@ public class TourDto {
 
     private Category category;
 
+    private String address;
+
     private List<String> images = new ArrayList<>();
 
     private List<Long> guides = new ArrayList<>();

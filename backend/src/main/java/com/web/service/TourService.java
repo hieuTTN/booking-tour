@@ -87,4 +87,19 @@ public class TourService {
         Page<Tour> page = tourRepository.findByDate(start, end, pageable);
         return page;
     }
+
+    public Page<Tour> findAllPublic(Date start, Date end, Long categoryId, Pageable pageable) {
+        if(start == null || end == null){
+            start = Date.valueOf("2000-01-01");
+            end = Date.valueOf("2200-01-01");
+        }
+        Page<Tour> page = null;
+        if(categoryId == null){
+            page = tourRepository.findByDatePublic(start, end, pageable);
+        }
+        else{
+            page = tourRepository.findByCategory(categoryId, pageable);
+        }
+        return page;
+    }
 }

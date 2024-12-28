@@ -105,6 +105,7 @@ const AdminAddTour = ()=>{
             "startDate": event.target.elements.startDate.value,
             "endDate": event.target.elements.endDate.value,
             "maxParticipants": event.target.elements.maxParticipants.value,
+            "address": event.target.elements.address.value,
             "category": selectcategory,
             "images":listLinkImg,
             "guides":arr,
@@ -151,6 +152,8 @@ const AdminAddTour = ()=>{
                             <input defaultValue={item?.endDate} name="endDate" type='date' class="form-control"/>
                             <label class="lb-form">Số người giới hạn</label>
                             <input defaultValue={item?.maxParticipants} name="maxParticipants" class="form-control"/>
+                            <label class="lb-form">Địa điểm du lịch</label>
+                            <input defaultValue={item?.address} name="address" class="form-control"/>
                             <label class="lb-form">Mô tả ngắn cho tour</label>
                             <textarea defaultValue={item?.description} name="description" class="form-control"></textarea>
                             <div id="loading">

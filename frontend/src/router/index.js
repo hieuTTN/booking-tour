@@ -16,6 +16,8 @@ import regis from '../pages/public/regis'
 import PublicForgot from '../pages/public/forgot'
 import confirm from '../pages/public/confirm'
 import DatLaiMatKhau from '../pages/public/datlaimatkhau'
+import Home from '../pages/public/index'
+import TimKiemTour from '../pages/public/timkiemtour'
 
 const publicRoutes = [
     { path: "/login", component: login, layout: layoutLogin },
@@ -23,6 +25,9 @@ const publicRoutes = [
     { path: "/forgot", component: PublicForgot, layout: layoutLogin},
     { path: "/confirm", component: confirm, layout: layoutLogin},
     { path: "/datlaimatkhau", component: DatLaiMatKhau, layout: layoutLogin},
+    { path: "/index", component: Home},
+    { path: "/", component: Home},
+    { path: "/tim-tour", component: TimKiemTour},
 ];
 
 const adminRoutes = [

@@ -81,6 +81,8 @@
 }
 .contentbl{
     padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 #listblogindex{
     margin-top: 30px;
@@ -111,18 +113,21 @@
     display: block;
     margin-top: 10px;
     color: #a09f9f;
-    font-size: 0.9rem;
+    font-size: 11px;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* number of lines to show */
-            line-clamp: 3; 
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
     -webkit-box-orient: vertical;
+    font-style: italic;
 }
 .blogdate{
     letter-spacing: 2px;
     color: #717171;
     display: block;
     margin-top: 8px;
+    height: 30px;
+    font-size: 12px;
 }
 .desindexs{
     margin-top: 50px;
@@ -1151,3 +1156,59 @@ max-height:100%;
     height: 2px; /* Đặt chiều cao */
     background-color: white; /* Màu nền (nếu cần) */
   }
+  .singletour{
+    -webkit-box-shadow: 0 0 10px #8f8f8f;
+        box-shadow: 0 0 10px #8f8f8f;
+    border-radius: 8px;
+}
+.imgtour{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.singletour a {
+    text-decoration: none;
+}
+.titletour{
+    text-decoration: none !important;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+.divgiatour{
+    padding-top: 70px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    position: relative;
+}
+.btn-dang{
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+    background-color: transparent;
+    border: 2px solid red;
+    border-radius: 5px;
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 3px 15px;
+}
+.songay{
+    background-color: #f3f3f3;
+    color: #333;
+    padding: 5px;
+}
+.sendem{
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #E03C31;
+    border: 0px;
+    color: #fff;
+    border-radius: 8px;
+}
+.searchmain{
+    -webkit-box-shadow: 0 0 10px #787878;
+        box-shadow: 0 0 10px #787878;
+    padding: 25px 30px;
+    border-radius: 10px;
+}

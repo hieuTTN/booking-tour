@@ -1145,3 +1145,9 @@ max-height:100%;
 #thatbai{
     display: none;
 }
+.custom-hr {
+    border: none;
+    border-top: 2px solid white; /* Đặt màu trắng */
+    height: 2px; /* Đặt chiều cao */
+    background-color: white; /* Màu nền (nếu cần) */
+  }

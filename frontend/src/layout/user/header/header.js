@@ -26,7 +26,7 @@ function Header (){
         authen = <span class="nav-item dropdown pointermenu gvs menulink">
                     <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i> Tài khoản</span>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="account">Tài khoản</a></li>
+                        <li><a class="dropdown-item" href="tourdadat">Tour đã đặt</a></li>
                         <li onClick={()=>logout()}><a class="dropdown-item" href="#">Đăng xuất</a></li>
                     </ul>
                 </span>

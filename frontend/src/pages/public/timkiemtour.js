@@ -3,7 +3,7 @@ import Footer from '../../layout/user/footer/footer'
 import banner from '../../assest/images/banner.jpg'
 import indeximg from '../../assest/images/index1.jpg'
 import index2img from '../../assest/images/index2.jpg'
-import {getMethod} from '../../services/request'
+import {getMethod, postMethodPayload} from '../../services/request'
 import {formatMoney} from '../../services/money'
 import { useState, useEffect } from 'react'
 import { Parser } from "html-to-react";
@@ -21,6 +21,9 @@ function TimKiemTour(){
     const [selectDanhMuc, setselectDanhMuc] = useState([]);
     const [selectPrice, setSelectPrice] = useState(null);
     const [priceRange, setPriceRange] = useState([]);
+    const [payload, setPayload] = useState({});
+    const [from, setFrom] = useState('');
+    const [to, setTo] = useState('');
 
     useEffect(()=>{
         getTour();
@@ -44,17 +47,25 @@ function TimKiemTour(){
   }, []);
 
   const getTour = async() =>{
-      var uls = '/api/tour/public/find-all-by-user?&size='+size+'&sort=id,desc&page='
-      url = uls
-      var response = await getMethod(uls+0)
-      var result = await response.json();
-      setItems(result.content)
-      setpageCount(result.totalPages)
+    var uls = new URL(document.URL)
+    var id = uls.searchParams.get("category");
+    var arr = [];
+    arr.push(id);
+    var pay = {
+        categoryIds: arr
+    }
+    setPayload(pay)
+    var uls = '/api/tour/public/search-full?&size='+size+'&sort=id,desc&page='
+    url = uls
+    var response = await postMethodPayload(uls+0, pay)
+    var result = await response.json();
+    setItems(result.content)
+    setpageCount(result.totalPages)
   };
   
   const handlePageClick = async (data)=>{
       var currentPage = data.selected
-      var response = await getMethod(url+currentPage)
+      var response = await postMethodPayload(url+currentPage, payload)
       var result = await response.json();
       setItems(result.content)
       setpageCount(result.totalPages)
@@ -67,12 +78,41 @@ const changePrice = (selectedOptions) => {
 function onDateChange(dates, dateStrings){
     console.log(dates);
     console.log(dateStrings);
+    setFrom(dateStrings[0])
+    setTo(dateStrings[1])
 }
+
+const searchTour = async() =>{
+    var arr = [];
+    selectDanhMuc.forEach((p)=>{
+        arr.push(p.id)
+    })
+    var small = 0;
+    var max = 10000000000;
+    if(selectPrice != null){
+        small = selectPrice.price.split("-")[0]
+        max = selectPrice.price.split("-")[1]
+    }
+    var pay = {
+        categoryIds: arr,
+        from: from==''?null:from,
+        to: to==''?null:to,
+        minPrice: small,
+        maxPrice: max,
+    }
+    setPayload(pay)
+    var uls = '/api/tour/public/search-full?&size='+size+'&sort=id,desc&page='
+    url = uls
+    var response = await postMethodPayload(uls+0, pay)
+    var result = await response.json();
+    setItems(result.content)
+    setpageCount(result.totalPages)
+};
 
 return(
     <div class="contentmain container">
         <div class="container custom-container-search">
-        <form action="timkiem" class="searchmain col-sm-12">
+        <div class="searchmain col-sm-12">
             <div class="row" style={{paddingBottom:'20px'}}>
                 <div className='col-sm-4'></div>
                 <div className='col-sm-4'>
@@ -115,11 +155,11 @@ return(
                         />
                     </div>
                     <div class="col-sm-3">
-                        <button class="sendem btnsearchtop form-control select-container">Tìm kiếm</button>
+                        <button onClick={()=>searchTour()} class="sendem btnsearchtop form-control select-container">Tìm kiếm</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 
       <section>
@@ -135,6 +175,7 @@ return(
                       <span href={"blogdetail?id="+item.id} class="titletour">{item.name}</span>
                       <span class="desblog"><i class="fa fa-quote-left" aria-hidden="true"></i> {item.description}</span>
                       <span class="blogdate"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> {item.address}</span>
+                      <span class="blogdate"><i class="fa fa-clock" aria-hidden="true"></i> {item.startDate} - {item.endDate}</span>
                     </div>
                     <div className='divgiatour'>
                       <span className='songay'>{calBwDate(item.startDate, item.endDate)}N</span>

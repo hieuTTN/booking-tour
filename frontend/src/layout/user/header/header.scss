@@ -1174,9 +1174,15 @@ max-height:100%;
     color: #333;
     font-size: 18px;
     font-weight: bold;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+           line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    height: 50px;
 }
 .divgiatour{
-    padding-top: 70px;
+    padding-top: 40px;
     padding-left: 15px;
     padding-bottom: 20px;
     position: relative;
@@ -1211,4 +1217,155 @@ max-height:100%;
         box-shadow: 0 0 10px #787878;
     padding: 25px 30px;
     border-radius: 10px;
+}
+.contentdetailpage{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+.namedetail{
+    color: #003C71;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-weight: bold;
+}
+.linkdetailpage{
+    color: #555863;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+.linkdetailpage a{
+    text-decoration: none;
+    color: #555863;
+}
+.imagedetail{
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+.listdmindex{
+    margin-top: 10px;
+}
+.media-29101{
+    padding-right: 5px;
+}
+.sectiondetail{
+    -webkit-box-shadow: 0 0 4px #9e9d9d;
+    box-shadow: 0 0 4px #9e9d9d;
+    padding: 25px 30px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+.imghdv{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.lbsectiondetail{
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3f3b3b;
+}
+.tenhdv{
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+#motatour img{
+    width: 100% !important;
+}
+.blockdangky{
+    margin-bottom: 10px;
+    padding: 20px 10px;
+    background-color: #feeec7;
+    border-radius: 4px;
+}
+.titlelichtrinh{
+    font-size: 20px;
+    font-weight: bold;
+    color: #003c71;
+}
+.chonsove{
+    color: #3f3b3b;
+    font-size: 13px;
+}
+.inputslve{
+    width: 25px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 1.2rem;
+}
+.inputslve:focus{
+    outline: none;
+}
+.btnactionsl{
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    font-weight: bold;
+}
+.sotuoive{
+    display: block;
+    color: #828282;
+    font-size: 14px;
+}
+.giave{
+    color: #ffbd00;
+    font-size: 16px;
+    line-height: 40px;
+    font-weight: bold;
+}
+.blockchonnguoi{
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.tabletongtien{
+    margin-top: 20px;
+}
+.tongtientt{
+    color: #FFBD00;
+    font-weight: bold;
+    font-size: 27px;
+}
+.btndattour{
+    transition: all .2s linear;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+    background: #f79321;
+    border: 1px solid #f79321;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+}
+.imgtable{
+    width: 100px;
+}
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.edit-btn {
+    background-color: #f39c12;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+.taga{
+    text-decoration: none;
 }

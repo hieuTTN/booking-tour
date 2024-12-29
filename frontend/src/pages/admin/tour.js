@@ -77,6 +77,7 @@ const AdminTour = ()=>{
                                 <th>id</th>
                                 <th>Ảnh</th>
                                 <th>Tên</th>
+                                <th>Loại</th>
                                 <th>Ngày tạo</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -91,6 +92,7 @@ const AdminTour = ()=>{
                                     <td>{item.id}</td>
                                     <td><img src={item.image} class='imgtable'/></td>
                                     <td>{item.name}</td>
+                                    <td>{item.category.name}</td>
                                     <td>{item.createdDate}</td>
                                     <td>{item.startDate}</td>
                                     <td>{item.endDate}</td>

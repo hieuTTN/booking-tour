@@ -18,6 +18,8 @@ import confirm from '../pages/public/confirm'
 import DatLaiMatKhau from '../pages/public/datlaimatkhau'
 import Home from '../pages/public/index'
 import TimKiemTour from '../pages/public/timkiemtour'
+import Detail from '../pages/public/tourdetail'
+import TourDaDat from '../pages/public/tourdadat'
 
 const publicRoutes = [
     { path: "/login", component: login, layout: layoutLogin },
@@ -28,6 +30,8 @@ const publicRoutes = [
     { path: "/index", component: Home},
     { path: "/", component: Home},
     { path: "/tim-tour", component: TimKiemTour},
+    { path: "/tourdetail", component: Detail},
+    { path: "/tourdadat", component: TourDaDat},
 ];
 
 const adminRoutes = [

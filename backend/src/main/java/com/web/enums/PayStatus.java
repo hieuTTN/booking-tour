@@ -8,6 +8,8 @@ import lombok.Getter;
 public enum PayStatus {
 
     CHUA_THANH_TOAN,
+    DA_DAT_COC,
+    DA_HUY,
     DA_THANH_TOAN,
 
 }

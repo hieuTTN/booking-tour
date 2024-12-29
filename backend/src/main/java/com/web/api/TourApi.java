@@ -1,6 +1,7 @@
 package com.web.api;
 
 import com.web.dto.request.TourDto;
+import com.web.dto.request.TourSearch;
 import com.web.dto.response.CategoryDto;
 import com.web.entity.Category;
 import com.web.entity.Guide;
@@ -56,4 +57,17 @@ public class TourApi {
         Tour result = tourService.findById(id);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+
+    @GetMapping("/public/findById")
+    public ResponseEntity<?> findByIdPublic(@RequestParam("id") Long id){
+        Tour result = tourService.findById(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @PostMapping("/public/search-full")
+    public ResponseEntity<?> searchFull(@RequestBody TourSearch search, Pageable pageable){
+        Page<Tour> result = tourService.searchFull(search.getMinPrice(), search.getMaxPrice(), search.getCategoryIds(), search.getFrom(), search.getTo(), pageable);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
 }

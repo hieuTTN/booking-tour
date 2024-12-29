@@ -1,6 +1,7 @@
 package com.web.service;
 
 import com.web.dto.request.TourDto;
+import com.web.dto.request.TourSpecification;
 import com.web.entity.Guide;
 import com.web.entity.ImageTour;
 import com.web.entity.Tour;
@@ -11,6 +12,7 @@ import com.web.repository.GuideRepository;
 import com.web.repository.ImageTourRepository;
 import com.web.repository.TourGuideRepository;
 import com.web.repository.TourRepository;
+import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class TourService {
@@ -102,4 +105,15 @@ public class TourService {
         }
         return page;
     }
+
+    public Page<Tour> searchFull(Double smallPrice, Double largePrice, List<Long> listIdCategory, Date from, Date to, Pageable pageable) {
+        if(smallPrice == null || largePrice == null){
+            smallPrice = 0D;
+            largePrice = 1000000000D;
+        }
+        TourSpecification productSpecification = new TourSpecification(listIdCategory, smallPrice, largePrice, from, to);
+        Page<Tour> page = tourRepository.findAll(productSpecification, pageable);
+        return page;
+    }
+
 }

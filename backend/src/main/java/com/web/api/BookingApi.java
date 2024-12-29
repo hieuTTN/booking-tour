@@ -36,7 +36,7 @@ public class BookingApi {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-    @GetMapping("/admin/my-booking")
+    @GetMapping("/admin/all")
     public ResponseEntity<?> all(Pageable pageable){
         Page<Booking> result = bookingService.all(pageable);
         return new ResponseEntity<>(result,HttpStatus.OK);

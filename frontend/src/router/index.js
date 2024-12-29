@@ -8,6 +8,7 @@ import AdminGuide from '../pages/admin/guide'
 import AdminAddGuide from '../pages/admin/addguide'
 import AdminAddTour from '../pages/admin/addtour'
 import AdminTour from '../pages/admin/tour'
+import AdminBooking from '../pages/admin/booking'
 
 
 //public
@@ -41,6 +42,7 @@ const adminRoutes = [
     { path: "/admin/add-guide", component: AdminAddGuide, layout: layoutAdmin },
     { path: "/admin/add-tour", component: AdminAddTour, layout: layoutAdmin },
     { path: "/admin/tour", component: AdminTour, layout: layoutAdmin },
+    { path: "/admin/booking", component: AdminBooking, layout: layoutAdmin },
 ];
 
 

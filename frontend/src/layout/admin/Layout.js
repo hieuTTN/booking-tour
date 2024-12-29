@@ -96,8 +96,8 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li className={isActive(["/admin/report"])}>
-                    <a href="report" class="text-white text-decoration-none">
+                <li className={isActive(["/admin/booking"])}>
+                    <a href="booking" class="text-white text-decoration-none">
                         <i class="fa fa-flag"></i> Đặt tour
                     </a>
                 </li>
